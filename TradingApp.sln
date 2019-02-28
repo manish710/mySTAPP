@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp", "TradingApp\Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.BusinessLogic", "TradingApp.BusinessLogic\TradingApp.BusinessLogic.csproj", "{FAEA1B2C-121B-4FA3-80F9-0159EB2F8AF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading.Entities", "Trading.Entities\Trading.Entities.csproj", "{3983D8F2-B5ED-4854-BD30-C775C944822D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingApp.Entities", "Trading.Entities\TradingApp.Entities.csproj", "{3983D8F2-B5ED-4854-BD30-C775C944822D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

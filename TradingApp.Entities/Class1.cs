@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trading.Entities
+namespace TradingApp.Entities
 {
     public class Class1
     {

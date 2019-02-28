@@ -1,0 +1,227 @@
+﻿@using System.Web.Optimization;
+@{
+	ViewBag.Title = "Trading";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title</title>
+	<meta name="description" content="My Store">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<link href="./Images/catalog/cart.png" rel="icon">
+
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/bootstrap")
+
+	@Styles.Render("~/bundles/css")
+
+
+	@*<script src="~/Scripts/jquery-1.10.2.js"></script>
+		<script src="~/Content2/bootstrap/js/bootstrap.js"></script>
+
+		<link href="~/Content2/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="~/Content/css/sb-admin-2.css" rel="stylesheet" />
+		<link href="~/Content/css/StyleSheet.css" rel="stylesheet" />
+		<link href="~/Content/PagedList.css" rel="stylesheet" />
+		<link href="~/Content/css/metisMenu.min.css" rel="stylesheet" />
+		<link href="~/Content/css/dataTables.bootstrap.css" rel="stylesheet" />
+		<link href="~/Content/css/jquery-ui.css" rel="stylesheet" />*@
+	<link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+	<style>
+		.modal-content {
+			width: 700px !important;
+			margin: 30px auto !important;
+		}
+
+		#popup {
+			visibility: hidden;
+			background-color: #01A65A;
+			color: white;
+			position: absolute;
+			top: 80px;
+			right: 5px;
+			min-height: 75px;
+			min-width: 200px;
+		}
+
+		body {
+			font-size: 14px;
+			color: black;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<nav id="top">
+			<div class="container">
+				<div id="top-links" class="nav pull-right">
+					<ul class="list-inline">
+						@if (Session["FirstName"] != null)
+						{
+							<li>Welcome @Session["FirstName"]</li>
+						}
+						<li class="dropdown">
+							@*<a href="#" title="My Account" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="fa fa-user"></i> <span class="hidden-xs hidden-sm hidden-md">My Account</span> <span class="caret"></span>
+							</a>*@
+							<ul class="dropdown-menu dropdown-menu-right">
+								@if (Session["CustomerId"] == null)
+								{
+									<li><a href="~/Account/Register">Register</a></li>
+									<li><a href="~/Account/Login">Login</a></li>
+								}
+								else
+								{
+									<li><a href="~/Account/Index">My Profile</a></li>
+									<li><a href="~/Account/Logout">Logout</a></li>
+								}
+
+
+							</ul>
+						</li>
+						@*<li><a href="#" class="view" onclick="ViewCart()" title="Shopping Cart"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">Shopping Cart</span></a></li>
+						  <li><a href="/PlaceOrder/Index" title="Checkout"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md">Checkout</span></a></li>*@
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div id="logo">
+							<a href="/Account/Index">
+								<img src="~/Content/Images/logo_neo.jpg" title="Your Store" alt="Your Store" class="img-responsive" />
+							</a>
+						</div>
+					</div>
+					<div class="col-sm-5">
+
+					</div>
+					<div class="col-sm-3" id="cart">
+						<!----------------------CartItems Button------------------------>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="container" id="menuContainer">
+			<!---------------------Category Menu Bar------------------------>
+			@{
+				Html.RenderAction("CategoryProducts", "Account");
+			}
+		</div>
+
+		<div class="container">
+
+		</div>
+		<div class="container">
+			<div class="row" id="test">
+				@RenderBody()
+			</div>
+		</div>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="col-sm-3">
+							<div class="col-sm-3">
+								<div class="col-sm-3">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-sm-4">
+						<p>Powered By NeoSoft <br> CopyRight © @DateTime.Now.Year</p>
+					</div>
+					<div class="col-sm-4">
+						@{
+							Html.RenderAction("PageNames", "ClientPage");
+						}
+					</div>
+					<div class="col-sm-4">
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-content"></div>
+	</div>
+
+	<!--Popup for checkout on empty cart-->
+	<div id="popup">
+		<div id="popupContent" style="margin : 15px">
+			<button type="button" id="updated" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">×</span>
+			</button>
+			<p id="popupMessage">You cart is empty. First add an item in your cart.</p>
+		</div>
+	</div>
+
+	<script>
+
+		$(document).ready(function () {
+			checkCookie();
+		});
+
+
+		function checkCookie() {
+			var id = getCookie("IP_Address");
+			if (id != "") {
+				$("#cart").load("/CategoryList/GetCartItems?id=" + id);
+			}
+		}
+
+		function setCookie(cname, cvalue) {
+			var d = new Date();
+			d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000));
+			var expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+
+		function ViewCart() {
+			var id = getCookie("IP_Address");
+			$(".view").attr("href", "/CategoryList/ViewCart?id=" + id);
+		}
+
+	</script>
+
+</body>
+</html>
+@if ((String)TempData["Checkout"] == "no")
+{
+	<script>
+		$("#popup").css("visibility", "visible");
+		$("#updated").click(function () {
+			$("#popup").css("visibility", "hidden");
+		});
+	</script>
+}
+

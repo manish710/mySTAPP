@@ -1,0 +1,72 @@
+﻿
+@{
+	ViewBag.Title = "Index";
+	//Layout = "~/Views/Shared/_TradingLayout.cshtml";
+}
+
+<div class="row">
+	<div id="content" class="col-sm-12">
+		<br>
+	<div class="row">
+		<form method="post" action="/Account/Login" novalidate="novalidate">
+			<div class="col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading" style="text-align:center; font-size:large;">
+						Login Details
+					</div>
+					<div class="panel-body">
+						@Html.ValidationMessage("wrong-user", "", new { @style = "color : red" })
+						@Html.ValidationMessage("NotActiveUser", "", new { @style = "color : red" })
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="col-sm-12">
+									<div class="form-group required">
+										<label class="col-sm-12 control-label">Email</label>
+										<div class="col-sm-12">
+											@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
+											@Html.ValidationMessageFor(model => model.Email, "", new { @style = "color : red" })
+										</div>
+									</div>
+									&nbsp;
+								</div>
+
+								<div class="col-sm-12">
+									<div class="form-group required">
+										<label class="col-sm-12 control-label">Password</label>
+										<div class="col-sm-12">
+											@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" } })
+											@Html.ValidationMessageFor(m => m.Password, "", new { @style = "color : red" })
+										</div>
+									</div>
+									&nbsp;
+								</div>
+								<div class="col-sm-12">
+									<a href="/Account/ForgotPassword" class="col-sm-12" style="text-decoration:underline;color:red;">Forgot Password</a>
+								</div>
+								<div class="col-sm-12">
+									&nbsp;
+									<div class="col-sm-12">
+										<input type="submit" value="Login" class="btn btn-default btn-success col-sm-12">
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			@*  }*@
+		</form>
+		<div class="col-lg-3 col-lg-offset-1">
+			<div class="list-group">
+				<a class="list-group-item" href="~/Account/Login">Login</a>
+				<a class="list-group-item" href="~/Account/Register">Register</a>
+
+			</div>
+		</div>
+	</div>
+
+	</div>
+</div>
+
